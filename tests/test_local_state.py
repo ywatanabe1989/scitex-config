@@ -1,4 +1,4 @@
-"""Tests for scitex_config.local_state — per-package path resolver."""
+"""Tests for scitex_config._ecosystem.local_state — per-package path resolver."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from scitex_config import local_state
+from scitex_config._ecosystem import local_state
 
 
 @pytest.fixture

@@ -4,22 +4,28 @@
 
 """scitex-config — configuration helpers (YAML + dotenv) — standalone.
 
-__version__ = "0.1.0"
+Two distinct API surfaces:
 
-Provides two configuration patterns (both use same priority order):
+**Public** (top-level ``scitex_config.*``) — convention-free generic
+primitives usable by any Python project:
 
-1. **ScitexConfig** (YAML-based, recommended):
-   - Loads configuration from YAML files
-   - YAML supports env var substitution: ${VAR:-default}
+- ``PriorityConfig`` — direct → config_dict → env → default cascade
+- ``ScitexConfig``, ``get_config``, ``load_yaml`` — YAML-based config
+- ``ScitexPaths``, ``get_paths`` — centralized path manager
+- ``load_dotenv``, ``get_scitex_dir`` — utilities
 
-2. **PriorityConfig** (dict-based, for programmatic use):
-   - Uses a Python dictionary for configuration
+**SciTeX-ecosystem internals** (``scitex_config._ecosystem.*``) — helpers
+that embed SciTeX conventions (`pkg-short` naming, project-scope walk to
+``.git/``, ``_skills/<pkg>/`` layout, ``SCITEX_<MODULE>_*`` env prefix).
+For scitex-* package authors only; **not a stable public API**::
 
-**Priority Order** (same for both):
+    from scitex_config._ecosystem import local_state, env_registry
+
+**Priority Order** (same for ``PriorityConfig`` and ``ScitexConfig``):
    direct → config (YAML/dict) → env → default
 
 Usage:
-    from scitex.config import ScitexConfig, ScitexPaths, get_config, get_paths
+    from scitex_config import ScitexConfig, ScitexPaths, get_config, get_paths
 
     # YAML-based configuration (Scholar pattern)
     config = get_config()
@@ -34,15 +40,6 @@ Usage:
     cache_dir = paths.resolve("cache", user_provided_path)
 """
 
-from . import _local_state as local_state
-from ._env_registry import (
-    ENV_REGISTRY,
-    EnvVar,
-    generate_template,
-    get_all_modules,
-    get_env_by_module,
-    get_env_docs,
-)
 from ._paths import ScitexPaths, get_paths
 from ._PriorityConfig import PriorityConfig, get_scitex_dir, load_dotenv
 from ._ScitexConfig import ScitexConfig, get_config, load_yaml
@@ -55,19 +52,10 @@ __all__ = [
     # Path management
     "ScitexPaths",
     "get_paths",
-    # Per-package local-state resolver (project-scope override + $SCITEX_DIR)
-    "local_state",
-    # Legacy/utility
+    # Generic primitives
     "PriorityConfig",
     "get_scitex_dir",
     "load_dotenv",
-    # Environment variable registry
-    "ENV_REGISTRY",
-    "EnvVar",
-    "generate_template",
-    "get_all_modules",
-    "get_env_by_module",
-    "get_env_docs",
 ]
 
 

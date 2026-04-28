@@ -37,9 +37,12 @@ def main() -> int:
         print(f"\nLoaded YAML: {loaded}")
         assert loaded["experiment"]["seed"] == 42
 
-    # Inspect a few registered environment variables
-    print("\nKnown SciTeX env-var modules:", sc.get_all_modules()[:6])
-    for ev in list(sc.ENV_REGISTRY)[:3]:
+    # Ecosystem-internal helpers (scitex package authors only — not a
+    # stable public API; see scitex_config._ecosystem.__doc__).
+    from scitex_config._ecosystem import env_registry as er
+
+    print("\nKnown SciTeX env-var modules:", er.get_all_modules()[:6])
+    for ev in list(er.ENV_REGISTRY)[:3]:
         name = getattr(ev, "name", str(ev))
         default = getattr(ev, "default", None)
         print(f"  {name:<25} default={default!r}")
