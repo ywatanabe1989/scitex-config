@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scitex-config"
-version = "0.3.0"
+version = "0.3.1"
 description = "Configuration helpers (YAML + dotenv layered priority) — standalone module from the SciTeX ecosystem"
 readme = "README.md"
 license = "AGPL-3.0-only"
@@ -47,7 +47,10 @@ Documentation = "https://scitex-config.readthedocs.io"
 where = ["src"]
 
 [tool.setuptools.package-data]
-scitex_config = ["*.yaml"]
+scitex_config = ["*.yaml", "_skills/**/*.md"]
+
+[project.entry-points."scitex_dev.skills"]
+scitex-config = "scitex_config"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
