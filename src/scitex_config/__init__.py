@@ -34,6 +34,7 @@ Usage:
     cache_dir = paths.resolve("cache", user_provided_path)
 """
 
+from . import _local_state as local_state
 from ._env_registry import (
     ENV_REGISTRY,
     EnvVar,
@@ -54,6 +55,8 @@ __all__ = [
     # Path management
     "ScitexPaths",
     "get_paths",
+    # Per-package local-state resolver (project-scope override + $SCITEX_DIR)
+    "local_state",
     # Legacy/utility
     "PriorityConfig",
     "get_scitex_dir",
