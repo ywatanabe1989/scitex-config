@@ -40,6 +40,8 @@ Usage:
     cache_dir = paths.resolve("cache", user_provided_path)
 """
 
+from __future__ import annotations
+
 from ._paths import ScitexPaths, get_paths
 from ._PriorityConfig import PriorityConfig, get_scitex_dir, load_dotenv
 from ._ScitexConfig import ScitexConfig, get_config, load_yaml
