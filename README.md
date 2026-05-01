@@ -83,7 +83,7 @@ bridge.
 
 `scitex-config` is part of [**SciTeX**](https://scitex.ai). Install via
 the umbrella with `pip install scitex[config]` to use as
-`scitex.config` (Python).
+`scitex.config` (Python) or `scitex config ...` (CLI).
 
 >Four Freedoms for Research
 >
