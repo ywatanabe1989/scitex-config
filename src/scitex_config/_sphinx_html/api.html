@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API &mdash; scitex-config 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scitex_config" href="api/scitex_config.html" />
+    <link rel="prev" title="scitex-config" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            scitex-config
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.ScitexConfig"><code class="docutils literal notranslate"><span class="pre">ScitexConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.get"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.resolve"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.resolve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.get_nested"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.get_nested()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.config_path"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.config_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.raw"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.raw</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.flat"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.flat</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexConfig.print"><code class="docutils literal notranslate"><span class="pre">ScitexConfig.print()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.get_config"><code class="docutils literal notranslate"><span class="pre">get_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.load_yaml"><code class="docutils literal notranslate"><span class="pre">load_yaml()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.ScitexPaths"><code class="docutils literal notranslate"><span class="pre">ScitexPaths</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.base"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.base</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.logs"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.logs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.cache"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.capture"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.capture</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.screenshots"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.screenshots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.rng"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.rng</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.browser"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.browser</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.browser_screenshots"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.browser_screenshots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.browser_sessions"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.browser_sessions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.browser_persistent"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.browser_persistent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.test_monitor"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.test_monitor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.function_cache"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.function_cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.impact_factor_cache"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.impact_factor_cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.openathens_cache"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.openathens_cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.scholar"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.scholar</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.scholar_cache"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.scholar_cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.scholar_library"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.scholar_library</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.writer"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.writer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.resolve"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.resolve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.ensure_dir"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.ensure_dir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.ensure_all"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.ensure_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.ScitexPaths.list_all"><code class="docutils literal notranslate"><span class="pre">ScitexPaths.list_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.get_paths"><code class="docutils literal notranslate"><span class="pre">get_paths()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.PriorityConfig"><code class="docutils literal notranslate"><span class="pre">PriorityConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.PriorityConfig.SENSITIVE_EXPRESSIONS"><code class="docutils literal notranslate"><span class="pre">PriorityConfig.SENSITIVE_EXPRESSIONS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.PriorityConfig.get"><code class="docutils literal notranslate"><span class="pre">PriorityConfig.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.PriorityConfig.resolve"><code class="docutils literal notranslate"><span class="pre">PriorityConfig.resolve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.PriorityConfig.print_resolutions"><code class="docutils literal notranslate"><span class="pre">PriorityConfig.print_resolutions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scitex_config.PriorityConfig.clear_log"><code class="docutils literal notranslate"><span class="pre">PriorityConfig.clear_log()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.get_scitex_dir"><code class="docutils literal notranslate"><span class="pre">get_scitex_dir()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.load_dotenv"><code class="docutils literal notranslate"><span class="pre">load_dotenv()</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/scitex_config.html">scitex_config</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">scitex-config</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-scitex_config">
+<span id="api"></span><h1>API<a class="headerlink" href="#module-scitex_config" title="Link to this heading"></a></h1>
+<p>scitex-config — configuration helpers (YAML + dotenv) — standalone.</p>
+<p>Two distinct API surfaces:</p>
+<p><strong>Public</strong> (top-level <code class="docutils literal notranslate"><span class="pre">scitex_config.*</span></code>) — convention-free generic
+primitives usable by any Python project:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PriorityConfig</span></code> — direct → config_dict → env → default cascade</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ScitexConfig</span></code>, <code class="docutils literal notranslate"><span class="pre">get_config</span></code>, <code class="docutils literal notranslate"><span class="pre">load_yaml</span></code> — YAML-based config</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ScitexPaths</span></code>, <code class="docutils literal notranslate"><span class="pre">get_paths</span></code> — centralized path manager</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_dotenv</span></code>, <code class="docutils literal notranslate"><span class="pre">get_scitex_dir</span></code> — utilities</p></li>
+</ul>
+<p><strong>SciTeX-ecosystem internals</strong> (<code class="docutils literal notranslate"><span class="pre">scitex_config._ecosystem.*</span></code>) — helpers
+that embed SciTeX conventions (<cite>pkg-short</cite> naming, project-scope walk to
+<code class="docutils literal notranslate"><span class="pre">.git/</span></code>, <code class="docutils literal notranslate"><span class="pre">_skills/&lt;pkg&gt;/</span></code> layout, <code class="docutils literal notranslate"><span class="pre">SCITEX_&lt;MODULE&gt;_*</span></code> env prefix).
+For scitex-* package authors only; <strong>not a stable public API</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scitex_config._ecosystem</span><span class="w"> </span><span class="kn">import</span> <span class="n">local_state</span><span class="p">,</span> <span class="n">env_registry</span>
+</pre></div>
+</div>
+<dl>
+<dt><strong>Priority Order</strong> (same for <code class="docutils literal notranslate"><span class="pre">PriorityConfig</span></code> and <code class="docutils literal notranslate"><span class="pre">ScitexConfig</span></code>):</dt><dd><p>direct → config (YAML/dict) → env → default</p>
+</dd>
+<dt>Usage:</dt><dd><p>from scitex_config import ScitexConfig, ScitexPaths, get_config, get_paths</p>
+<p># YAML-based configuration (Scholar pattern)
+config = get_config()
+log_level = config.resolve(“logging.level”, default=”INFO”)</p>
+<p># Centralized path manager
+paths = get_paths()
+print(paths.logs)      # ~/.scitex/logs
+print(paths.cache)     # ~/.scitex/cache</p>
+<p># Use resolve() pattern in modules
+cache_dir = paths.resolve(“cache”, user_provided_path)</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">ScitexConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SCITEX_'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#ScitexConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexConfig" title="Link to this definition"></a></dt>
+<dd><p>YAML-based configuration manager for SciTeX.</p>
+<p>Loads configuration from YAML files with environment variable substitution.
+Values can be resolved with priority: direct → config → env → default.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scitex.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScitexConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">ScitexConfig</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;logging.level&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+<span class="go">&#39;INFO&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;debug.enabled&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#ScitexConfig.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexConfig.get" title="Link to this definition"></a></dt>
+<dd><p>Get value from config directly (no precedence resolution).</p>
+<p>Supports dot notation for nested keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Configuration key (e.g., “logging.level” or “debug.enabled”)</p></li>
+<li><p><strong>default</strong> (<em>Any</em>) – Default value if key not found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configuration value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#ScitexConfig.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexConfig.resolve" title="Link to this definition"></a></dt>
+<dd><p>Resolve value with precedence: direct → config → env → default.</p>
+<p>This follows the Scholar module’s CascadeConfig pattern where
+YAML config takes higher priority than environment variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Configuration key (e.g., “logging.level”)</p></li>
+<li><p><strong>direct_val</strong> (<em>Any</em>) – Direct value (highest precedence)</p></li>
+<li><p><strong>default</strong> (<em>Any</em>) – Default value (lowest precedence)</p></li>
+<li><p><strong>type</strong> (<em>Type</em>) – Type conversion (str, int, float, bool, list)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.get_nested">
+<span class="sig-name descname"><span class="pre">get_nested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#ScitexConfig.get_nested"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexConfig.get_nested" title="Link to this definition"></a></dt>
+<dd><p>Get nested value from original config structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Keys to traverse (e.g., “browser”, “screenshots_dir”)</p></li>
+<li><p><strong>default</strong> (<em>Any</em>) – Default value if not found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nested value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.config_path">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">config_path</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexConfig.config_path" title="Link to this definition"></a></dt>
+<dd><p>Get the path to the loaded config file.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.raw">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">raw</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#scitex_config.ScitexConfig.raw" title="Link to this definition"></a></dt>
+<dd><p>Get raw configuration data (original nested structure).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.flat">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">flat</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#scitex_config.ScitexConfig.flat" title="Link to this definition"></a></dt>
+<dd><p>Get flattened configuration data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexConfig.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#ScitexConfig.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexConfig.print" title="Link to this definition"></a></dt>
+<dd><p>Print configuration resolution log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.get_config">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.get_config" title="Link to this definition"></a></dt>
+<dd><p>Get ScitexConfig instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Path to custom config. If None, returns cached default instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configuration instance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api/scitex_config.html#scitex_config.ScitexConfig" title="scitex_config.ScitexConfig">ScitexConfig</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.load_yaml">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">load_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_ScitexConfig.html#load_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.load_yaml" title="Link to this definition"></a></dt>
+<dd><p>Load YAML file with environment variable substitution.</p>
+<p>Supports ${VAR:-default} syntax for environment variable expansion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Path</em>) – Path to YAML file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parsed YAML with environment variables substituted</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">ScitexPaths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_paths.html#ScitexPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexPaths" title="Link to this definition"></a></dt>
+<dd><p>Centralized path manager for SciTeX directories.</p>
+<p>All paths are derived from SCITEX_DIR (default: ~/.scitex).
+Priority: direct_val → SCITEX_DIR env → .env file → default</p>
+<dl class="simple">
+<dt>Directory Structure:</dt><dd><p>$SCITEX_DIR/
+├── browser/              # Browser profiles and data
+│   ├── screenshots/      # Browser debugging screenshots
+│   ├── sessions/         # Shared browser sessions
+│   └── persistent/       # Persistent browser profiles
+├── cache/                # General cache
+│   └── functions/        # Function cache (joblib)
+├── capture/              # Screen captures
+├── impact_factor_cache/  # Impact factor data cache
+├── logs/                 # Log files
+├── openathens_cache/     # OpenAthens auth cache
+├── rng/                  # Random number generator state
+├── scholar/              # Scholar module data
+│   ├── cache/            # Scholar-specific cache
+│   └── library/          # PDF library
+├── screenshots/          # General screenshots
+├── test_monitor/         # Test monitoring screenshots
+└── writer/               # Writer module data</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.base">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">base</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.base" title="Link to this definition"></a></dt>
+<dd><p>Base SciTeX directory ($SCITEX_DIR or ~/.scitex).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.logs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">logs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.logs" title="Link to this definition"></a></dt>
+<dd><p>Log files directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.cache">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cache</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.cache" title="Link to this definition"></a></dt>
+<dd><p>General cache directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.capture">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">capture</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.capture" title="Link to this definition"></a></dt>
+<dd><p>Screen capture directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.screenshots">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">screenshots</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.screenshots" title="Link to this definition"></a></dt>
+<dd><p>General screenshots directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.rng">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rng</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.rng" title="Link to this definition"></a></dt>
+<dd><p>Random number generator state directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.browser">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">browser</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.browser" title="Link to this definition"></a></dt>
+<dd><p>Browser module base directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.browser_screenshots">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">browser_screenshots</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.browser_screenshots" title="Link to this definition"></a></dt>
+<dd><p>Browser debugging screenshots.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.browser_sessions">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">browser_sessions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.browser_sessions" title="Link to this definition"></a></dt>
+<dd><p>Shared browser sessions.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.browser_persistent">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">browser_persistent</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.browser_persistent" title="Link to this definition"></a></dt>
+<dd><p>Persistent browser profiles.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.test_monitor">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">test_monitor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.test_monitor" title="Link to this definition"></a></dt>
+<dd><p>Test monitoring screenshots directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.function_cache">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">function_cache</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.function_cache" title="Link to this definition"></a></dt>
+<dd><p>Function cache (joblib memory).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.impact_factor_cache">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">impact_factor_cache</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.impact_factor_cache" title="Link to this definition"></a></dt>
+<dd><p>Impact factor data cache.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.openathens_cache">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">openathens_cache</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.openathens_cache" title="Link to this definition"></a></dt>
+<dd><p>OpenAthens authentication cache.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.scholar">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scholar</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.scholar" title="Link to this definition"></a></dt>
+<dd><p>Scholar module base directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.scholar_cache">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scholar_cache</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.scholar_cache" title="Link to this definition"></a></dt>
+<dd><p>Scholar-specific cache directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.scholar_library">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scholar_library</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.scholar_library" title="Link to this definition"></a></dt>
+<dd><p>Scholar PDF library directory.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.writer">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">writer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><a class="headerlink" href="#scitex_config.ScitexPaths.writer" title="Link to this definition"></a></dt>
+<dd><p>Writer module directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_paths.html#ScitexPaths.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexPaths.resolve" title="Link to this definition"></a></dt>
+<dd><p>Resolve a path with priority: direct_val → default from SCITEX_DIR.</p>
+<p>This is the recommended method for modules that accept optional path
+parameters. It follows the same pattern as PriorityConfig.resolve().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the path property (e.g., “cache”, “logs”, “scholar_library”)</p></li>
+<li><p><strong>direct_val</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Direct value (highest precedence). If None, uses default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved path</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paths</span> <span class="o">=</span> <span class="n">ScitexPaths</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># User didn&#39;t provide path -&gt; use default</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cache_dir</span> <span class="o">=</span> <span class="n">paths</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># User provided custom path -&gt; use it</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cache_dir</span> <span class="o">=</span> <span class="n">paths</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;/custom/cache&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Usage in modules:
+&gt;&gt;&gt; class MyModule:
+…     def __init__(self, cache_dir=None):
+…         self.cache_dir = get_paths().resolve(“cache”, cache_dir)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.ensure_dir">
+<span class="sig-name descname"><span class="pre">ensure_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_paths.html#ScitexPaths.ensure_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexPaths.ensure_dir" title="Link to this definition"></a></dt>
+<dd><p>Ensure directory exists, creating if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Path</em>) – Directory path to ensure exists.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same path, guaranteed to exist.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.ensure_all">
+<span class="sig-name descname"><span class="pre">ensure_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_paths.html#ScitexPaths.ensure_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexPaths.ensure_all" title="Link to this definition"></a></dt>
+<dd><p>Create all standard directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.ScitexPaths.list_all">
+<span class="sig-name descname"><span class="pre">list_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_paths.html#ScitexPaths.list_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.ScitexPaths.list_all" title="Link to this definition"></a></dt>
+<dd><p>List all configured paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary of path names to Path objects.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.get_paths">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">get_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_paths.html#get_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.get_paths" title="Link to this definition"></a></dt>
+<dd><p>Get ScitexPaths instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – Explicit base directory. If None, returns cached default instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path manager instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api/scitex_config.html#scitex_config.ScitexPaths" title="scitex_config.ScitexPaths">ScitexPaths</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scitex_config.PriorityConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">PriorityConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_uppercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#PriorityConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.PriorityConfig" title="Link to this definition"></a></dt>
+<dd><p>Universal config resolver with precedence: direct → config_dict → env → default</p>
+<p>Config dict (from YAML or passed dict) takes priority over env variables.
+This follows the Scholar module’s CascadeConfig pattern.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scitex.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">PriorityConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">PriorityConfig</span><span class="p">(</span><span class="n">config_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">},</span> <span class="n">env_prefix</span><span class="o">=</span><span class="s2">&quot;SCITEX_&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">3000  # from config_dict (highest after direct)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># With env: SCITEX_PORT=5000 python script.py</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">3000  # config_dict takes precedence over env</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="mi">9000</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">9000  # direct value takes highest precedence</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scitex_config.PriorityConfig.SENSITIVE_EXPRESSIONS">
+<span class="sig-name descname"><span class="pre">SENSITIVE_EXPRESSIONS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['API',</span> <span class="pre">'PASSWORD',</span> <span class="pre">'SECRET',</span> <span class="pre">'TOKEN',</span> <span class="pre">'KEY',</span> <span class="pre">'PASS',</span> <span class="pre">'AUTH',</span> <span class="pre">'CREDENTIAL',</span> <span class="pre">'PRIVATE',</span> <span class="pre">'CERT']</span></span><a class="headerlink" href="#scitex_config.PriorityConfig.SENSITIVE_EXPRESSIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.PriorityConfig.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#PriorityConfig.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.PriorityConfig.get" title="Link to this definition"></a></dt>
+<dd><p>Get value from config dict only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.PriorityConfig.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#PriorityConfig.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.PriorityConfig.resolve" title="Link to this definition"></a></dt>
+<dd><p>Get value with precedence hierarchy.</p>
+<p>Precedence: direct → config_dict → env → default</p>
+<p>This follows the Scholar module’s CascadeConfig pattern where
+config dict takes higher priority than environment variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Configuration key to resolve</p></li>
+<li><p><strong>direct_val</strong> (<em>Any</em><em>, </em><em>optional</em>) – Direct value (highest precedence)</p></li>
+<li><p><strong>default</strong> (<em>Any</em><em>, </em><em>optional</em>) – Default value if not found elsewhere</p></li>
+<li><p><strong>type</strong> (<em>Type</em>) – Type conversion (str, int, float, bool, list)</p></li>
+<li><p><strong>mask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Override automatic masking of sensitive values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved configuration value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.PriorityConfig.print_resolutions">
+<span class="sig-name descname"><span class="pre">print_resolutions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#PriorityConfig.print_resolutions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.PriorityConfig.print_resolutions" title="Link to this definition"></a></dt>
+<dd><p>Print how each config was resolved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scitex_config.PriorityConfig.clear_log">
+<span class="sig-name descname"><span class="pre">clear_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#PriorityConfig.clear_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.PriorityConfig.clear_log" title="Link to this definition"></a></dt>
+<dd><p>Clear resolution log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.get_scitex_dir">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">get_scitex_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direct_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#get_scitex_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.get_scitex_dir" title="Link to this definition"></a></dt>
+<dd><p>Get SCITEX_DIR with priority: direct → env → default.</p>
+<p>This is a convenience function for the most common use case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>direct_val</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – Direct value (highest precedence)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved SCITEX_DIR path</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.load_dotenv">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">load_dotenv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dotenv_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_PriorityConfig.html#load_dotenv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.load_dotenv" title="Link to this definition"></a></dt>
+<dd><p>Load environment variables from .env file.</p>
+<p>Searches for .env file in the following order:
+1. Explicit dotenv_path if provided
+2. Current working directory
+3. User home directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dotenv_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – Path to .env file. If None, searches default locations.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if .env file was found and loaded, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="scitex-config" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/scitex_config.html" class="btn btn-neutral float-right" title="scitex_config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

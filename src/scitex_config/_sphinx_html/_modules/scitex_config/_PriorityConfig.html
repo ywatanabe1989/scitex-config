@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scitex_config._PriorityConfig &mdash; scitex-config 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            scitex-config
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/scitex_config.html">scitex_config</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">scitex-config</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scitex_config._PriorityConfig</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scitex_config._PriorityConfig</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Timestamp: &quot;2025-12-09 (ywatanabe)&quot;</span>
+<span class="c1"># File: /home/ywatanabe/proj/scitex-code/src/scitex/config/PriorityConfig.py</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Priority-based configuration resolver.</span>
+
+<span class="sd">Provides clean precedence hierarchy: direct → config_dict → env → default</span>
+
+<span class="sd">Based on priority-config by ywatanabe (https://github.com/ywatanabe1989/priority-config)</span>
+<span class="sd">Incorporated into scitex for self-contained configuration management.</span>
+
+<span class="sd">Note: config_dict values (from YAML or passed dict) take priority over</span>
+<span class="sd">environment variables. This follows the Scholar module&#39;s CascadeConfig pattern.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+
+
+<div class="viewcode-block" id="load_dotenv">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.load_dotenv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.</span>
+
+<span class="sd">    Searches for .env file in the following order:</span>
+<span class="sd">    1. Explicit dotenv_path if provided</span>
+<span class="sd">    2. Current working directory</span>
+<span class="sd">    3. User home directory</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dotenv_path : str, optional</span>
+<span class="sd">        Path to .env file. If None, searches default locations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if .env file was found and loaded, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">paths_to_try</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">dotenv_path</span><span class="p">:</span>
+        <span class="n">paths_to_try</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">dotenv_path</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Default search paths</span>
+        <span class="n">paths_to_try</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.env&quot;</span><span class="p">,</span>
+                <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.env&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths_to_try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="c1"># Skip empty lines and comments</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                            <span class="k">continue</span>
+                        <span class="c1"># Handle export prefix</span>
+                        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;export &quot;</span><span class="p">):</span>
+                            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
+                        <span class="c1"># Parse key=value</span>
+                        <span class="k">if</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                            <span class="n">key</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                            <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                            <span class="c1"># Remove quotes if present</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span>
+                                <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+                            <span class="p">):</span>
+                                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="c1"># Only set if not already in environment (env takes precedence)</span>
+                            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+                                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">continue</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="get_scitex_dir">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.get_scitex_dir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_scitex_dir</span><span class="p">(</span><span class="n">direct_val</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get SCITEX_DIR with priority: direct → env → default.</span>
+
+<span class="sd">    This is a convenience function for the most common use case.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    direct_val : str, optional</span>
+<span class="sd">        Direct value (highest precedence)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Path</span>
+<span class="sd">        Resolved SCITEX_DIR path</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Try to load .env first (won&#39;t override existing env vars)</span>
+    <span class="n">load_dotenv</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">direct_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">direct_val</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+
+    <span class="n">env_val</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SCITEX_DIR&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">env_val</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">env_val</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.scitex&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="PriorityConfig">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PriorityConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Universal config resolver with precedence: direct → config_dict → env → default</span>
+
+<span class="sd">    Config dict (from YAML or passed dict) takes priority over env variables.</span>
+<span class="sd">    This follows the Scholar module&#39;s CascadeConfig pattern.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from scitex.config import PriorityConfig</span>
+<span class="sd">    &gt;&gt;&gt; config = PriorityConfig(config_dict={&quot;port&quot;: 3000}, env_prefix=&quot;SCITEX_&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; port = config.resolve(&quot;port&quot;, None, default=8000, type=int)</span>
+<span class="sd">    3000  # from config_dict (highest after direct)</span>
+<span class="sd">    &gt;&gt;&gt; # With env: SCITEX_PORT=5000 python script.py</span>
+<span class="sd">    &gt;&gt;&gt; port = config.resolve(&quot;port&quot;, None, default=8000, type=int)</span>
+<span class="sd">    3000  # config_dict takes precedence over env</span>
+<span class="sd">    &gt;&gt;&gt; port = config.resolve(&quot;port&quot;, 9000, default=8000, type=int)</span>
+<span class="sd">    9000  # direct value takes highest precedence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SENSITIVE_EXPRESSIONS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;API&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PASSWORD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SECRET&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TOKEN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;KEY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PASS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AUTH&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CREDENTIAL&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PRIVATE&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CERT&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">config_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">env_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">auto_uppercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize PriorityConfig.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        config_dict : dict, optional</span>
+<span class="sd">            Dictionary with configuration values</span>
+<span class="sd">        env_prefix : str</span>
+<span class="sd">            Prefix for environment variables (e.g., &quot;SCITEX_&quot;)</span>
+<span class="sd">        auto_uppercase : bool</span>
+<span class="sd">            Whether to uppercase keys for env lookup</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span> <span class="o">=</span> <span class="n">config_dict</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env_prefix</span> <span class="o">=</span> <span class="n">env_prefix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auto_uppercase</span> <span class="o">=</span> <span class="n">auto_uppercase</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;PriorityConfig(prefix=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env_prefix</span><span class="si">}</span><span class="s2">&#39;, configs=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+<div class="viewcode-block" id="PriorityConfig.get">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get value from config dict only.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PriorityConfig.resolve">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.resolve">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">direct_val</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">type</span><span class="p">:</span> <span class="n">Type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get value with precedence hierarchy.</span>
+
+<span class="sd">        Precedence: direct → config_dict → env → default</span>
+
+<span class="sd">        This follows the Scholar module&#39;s CascadeConfig pattern where</span>
+<span class="sd">        config dict takes higher priority than environment variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            Configuration key to resolve</span>
+<span class="sd">        direct_val : Any, optional</span>
+<span class="sd">            Direct value (highest precedence)</span>
+<span class="sd">        default : Any, optional</span>
+<span class="sd">            Default value if not found elsewhere</span>
+<span class="sd">        type : Type</span>
+<span class="sd">            Type conversion (str, int, float, bool, list)</span>
+<span class="sd">        mask : bool, optional</span>
+<span class="sd">            Override automatic masking of sensitive values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Any</span>
+<span class="sd">            Resolved configuration value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">final_value</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Replace dots with underscores for env key (e.g., axes.width_mm -&gt; AXES_WIDTH_MM)</span>
+        <span class="n">normalized_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="n">env_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env_prefix</span><span class="si">}{</span><span class="n">normalized_key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">auto_uppercase</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">normalized_key</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">env_val</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">env_key</span><span class="p">)</span>
+
+        <span class="c1"># Priority: direct → config_dict → env → default</span>
+        <span class="k">if</span> <span class="n">direct_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;direct&quot;</span>
+            <span class="n">final_value</span> <span class="o">=</span> <span class="n">direct_val</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;config_dict&quot;</span>
+            <span class="n">final_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">env_val</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;env:</span><span class="si">{</span><span class="n">env_key</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">final_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_type</span><span class="p">(</span><span class="n">env_val</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+            <span class="n">final_value</span> <span class="o">=</span> <span class="n">default</span>
+
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">should_mask</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">should_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_sensitive</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="n">display_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mask_value</span><span class="p">(</span><span class="n">final_value</span><span class="p">)</span> <span class="k">if</span> <span class="n">should_mask</span> <span class="k">else</span> <span class="n">final_value</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span>
+                <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">display_value</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">final_value</span></div>
+
+
+<div class="viewcode-block" id="PriorityConfig.print_resolutions">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.print_resolutions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_resolutions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print how each config was resolved.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No configurations resolved yet&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Configuration Resolution Log:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PriorityConfig.clear_log">
+<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.clear_log">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_log</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear resolution log.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert string value to specified type.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_sensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if key contains sensitive expressions.&quot;&quot;&quot;</span>
+        <span class="n">key_upper</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">expr</span> <span class="ow">in</span> <span class="n">key_upper</span> <span class="k">for</span> <span class="n">expr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SENSITIVE_EXPRESSIONS</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_mask_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mask sensitive values for display.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">value_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_str</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;****&quot;</span>
+        <span class="k">return</span> <span class="n">value_str</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value_str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">value_str</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span></div>
+
+
+
+<span class="c1"># EOF</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
