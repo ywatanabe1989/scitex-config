@@ -1,15 +1,17 @@
 ---
 name: scitex-config
-description: Configuration primitives for the SciTeX ecosystem — `PriorityConfig` (direct → yaml → env → default cascade for resolving any tunable), `ScitexConfig`+`get_config()` (YAML-based config object with the same cascade semantics), `ScitexPaths`+`get_paths()` (centralized `$SCITEX_DIR/<subdir>` path manager), and the ecosystem-internal `scitex_config._ecosystem.local_state` (project-scope-aware path resolver that walks up to `.git/` and falls back to `$SCITEX_DIR/<pkg-short>/`). Drop-in replacement for ad-hoc `os.environ.get(...) or yaml.safe_load(...) or default` ladders, scattered `Path.home()/'.cache'/'pkg'` hardcodes, and per-package `_paths.py` modules. Use whenever a SciTeX package needs to read a tunable, resolve a runtime/cache directory, or honor project-level overrides.
+description: |
+  [WHAT] Configuration primitives — `PriorityConfig` (direct → yaml → env → default cascade), `ScitexConfig`/`get_config` (YAML config), `ScitexPaths`/`get_paths` ($SCITEX_DIR path manager), and ecosystem-internal `_ecosystem.local_state` (project-scope-aware path resolver).
+  [WHEN] Reading any tunable, resolving runtime/cache/log directories, or honoring project-level config overrides in a SciTeX package.
+  [HOW] `from scitex_config import PriorityConfig, get_config, get_paths` — call `.resolve(direct=..., key=..., env_var=..., default=...)` for the cascade.
+tags: [scitex-config]
 primary_interface: python
 interfaces:
   python: 3
   cli: 0
   mcp: 0
   skills: 2
-  hook: 0
   http: 0
-tags: [scitex-config, scitex-package, config, paths, priority]
 ---
 
 > **Interfaces:** Python ⭐⭐⭐ (primary) · Skills ⭐⭐
