@@ -23,6 +23,12 @@ Layered configuration + path management for the SciTeX ecosystem.
 - **Public** (`scitex_config.*`) — convention-free primitives usable by any project.
 - **Ecosystem-internal** (`scitex_config._ecosystem.*`) — embeds SciTeX conventions; for scitex-* package authors only.
 
+## Sub-skills
+
+- [01_installation.md](01_installation.md) — pip install + verify
+- [02_quick-start.md](02_quick-start.md) — direct → yaml → env → default cascade
+- [03_python-api.md](03_python-api.md) — full public surface
+
 ## Public API
 
 ```python
