@@ -10,7 +10,7 @@ Provides a single source of truth for all directory paths used across
 the SciTeX ecosystem. All paths respect the SCITEX_DIR environment variable.
 
 Usage:
-    from scitex.config import ScitexPaths
+    from scitex_config import ScitexPaths
 
     paths = ScitexPaths()
 

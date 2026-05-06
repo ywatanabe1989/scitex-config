@@ -12,7 +12,7 @@ Similar to ScholarConfig, provides:
 - Cascade resolution (direct → config → env → default)
 
 Usage:
-    from scitex.config import ScitexConfig
+    from scitex_config import ScitexConfig
 
     # Load default configuration
     config = ScitexConfig()
