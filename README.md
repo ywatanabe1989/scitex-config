@@ -9,7 +9,7 @@
 <p align="center"><b>Configuration + path management with `direct → yaml → env → default` priority cascade.</b></p>
 
 <p align="center">
-  <a href="https://scitex-config.readthedocs.io/">Full Documentation</a> · <code>pip install scitex-config</code>
+  <a href="https://scitex-config.readthedocs.io/">Full Documentation</a> · <code>uv pip install scitex-config[all]</code>
 </p>
 
 <!-- scitex-badges:start -->
