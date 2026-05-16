@@ -14,16 +14,27 @@
 
 <!-- scitex-badges:start -->
 <p align="center">
-  <a href="https://pypi.org/project/scitex-config/"><img src="https://img.shields.io/pypi/v/scitex-config.svg" alt="PyPI"></a>
-  <a href="https://pypi.org/project/scitex-config/"><img src="https://img.shields.io/pypi/pyversions/scitex-config.svg" alt="Python"></a>
-  <a href="https://github.com/ywatanabe1989/scitex-config/actions/workflows/test.yml"><img src="https://github.com/ywatanabe1989/scitex-config/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
-  <a href="https://codecov.io/gh/ywatanabe1989/scitex-config"><img src="https://codecov.io/gh/ywatanabe1989/scitex-config/graph/badge.svg" alt="Coverage"></a>
-  <a href="https://scitex-config.readthedocs.io/en/latest/"><img src="https://readthedocs.org/projects/scitex-config/badge/?version=latest" alt="Docs"></a>
-  <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/license-AGPL_v3-blue.svg" alt="License: AGPL v3"></a>
+  <a href="https://pypi.org/project/scitex-config/"><img src="https://img.shields.io/pypi/v/scitex-config?label=pypi" alt="pypi"></a>
+  <a href="https://pypi.org/project/scitex-config/"><img src="https://img.shields.io/pypi/pyversions/scitex-config?label=python" alt="python"></a>
+  <a href="https://scitex-config.readthedocs.io/en/latest/"><img src="https://img.shields.io/readthedocs/scitex-config?label=docs" alt="docs"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/ywatanabe1989/scitex-config/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/scitex-config/test.yml?branch=develop&label=tests" alt="tests"></a>
+  <a href="https://github.com/ywatanabe1989/scitex-config/actions/workflows/import-smoke-on-ubuntu-py3-12.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/scitex-config/import-smoke-on-ubuntu-py3-12.yml?branch=develop&label=install-check" alt="install-check"></a>
+  <a href="https://github.com/ywatanabe1989/scitex-config/actions/workflows/scitex-dev-quality-audit-on-ubuntu-latest.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/scitex-config/scitex-dev-quality-audit-on-ubuntu-latest.yml?branch=develop&label=quality" alt="quality"></a>
+  <a href="https://codecov.io/gh/ywatanabe1989/scitex-config"><img src="https://img.shields.io/codecov/c/github/ywatanabe1989/scitex-config/develop?label=cov" alt="cov"></a>
 </p>
 <!-- scitex-badges:end -->
 
 ---
+
+## Problem and Solution
+
+| # | Problem | Solution |
+|---|---------|----------|
+| 1 | **Config values come from many sources** (CLI flags, YAML files, env vars, hard-coded defaults) and ad-hoc precedence rules drift between scripts. | **`PriorityConfig.resolve()`** enforces a single `direct → yaml → env → default` cascade with a resolution log. |
+| 2 | **Runtime directories** (cache, logs, sessions) get hardcoded to `~/.cache/<pkg>/` and ignore the user's `$SCITEX_DIR`. | **`get_paths()` / `ScitexPaths`** roots every directory at `$SCITEX_DIR` (default `~/.scitex`) and exposes typed accessors. |
+| 3 | **`.env` loading** is reinvented per project (cwd-only, no walk-up, silent override of process env). | **`load_dotenv(walk_up=True)`** walks parents to `$HOME`, never overrides existing process env, and returns a boolean status. |
 
 ## Installation
 
