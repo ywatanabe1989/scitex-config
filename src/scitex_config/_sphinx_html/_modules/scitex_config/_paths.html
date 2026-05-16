@@ -83,10 +83,27 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Centralized path management for SciTeX.</span>
 
-<span class="sd">Provides a single source of truth for all directory paths used across</span>
-<span class="sd">the SciTeX ecosystem. All paths respect the SCITEX_DIR environment variable.</span>
+<span class="sd">Functionalities</span>
+<span class="sd">---------------</span>
+<span class="sd">- `ScitexPaths` — central path manager rooted at `$SCITEX_DIR`</span>
+<span class="sd">  (browser, cache, capture, logs, sessions, ...).</span>
+<span class="sd">- Property accessors return canonical defaults; `resolve(name, direct_val=...)`</span>
+<span class="sd">  supports the `direct → env → default` cascade per directory.</span>
+<span class="sd">- `get_paths()` — module-level cached accessor.</span>
 
-<span class="sd">Usage:</span>
+<span class="sd">IO</span>
+<span class="sd">--</span>
+<span class="sd">- Reads: `$SCITEX_DIR` env var, `.env` files (via `load_dotenv`).</span>
+<span class="sd">- Writes: creates child directories under `$SCITEX_DIR` on first access</span>
+<span class="sd">  (`mkdir(parents=True, exist_ok=True)`).</span>
+
+<span class="sd">Dependencies</span>
+<span class="sd">------------</span>
+<span class="sd">- stdlib (`os`, `pathlib`, `typing`).</span>
+<span class="sd">- Sibling module `._PriorityConfig` (`get_scitex_dir`, `load_dotenv`).</span>
+
+<span class="sd">Usage</span>
+<span class="sd">-----</span>
 <span class="sd">    from scitex_config import ScitexPaths</span>
 
 <span class="sd">    paths = ScitexPaths()</span>
@@ -103,11 +120,10 @@
 <span class="sd">    paths = ScitexPaths(base_dir=&quot;/custom/path&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">._PriorityConfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_scitex_dir</span><span class="p">,</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._PriorityConfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_scitex_dir</span>
 
 
 <div class="viewcode-block" id="ScitexPaths">

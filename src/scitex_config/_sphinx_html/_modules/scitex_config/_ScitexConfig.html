@@ -83,12 +83,26 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">YAML-based configuration for SciTeX with environment variable substitution.</span>
 
-<span class="sd">Similar to ScholarConfig, provides:</span>
-<span class="sd">- YAML configuration loading</span>
-<span class="sd">- Environment variable substitution (${VAR:-default} syntax)</span>
-<span class="sd">- Cascade resolution (direct → config → env → default)</span>
+<span class="sd">Functionalities</span>
+<span class="sd">---------------</span>
+<span class="sd">- `load_yaml()` — parse YAML with `${VAR:-default}` env substitution.</span>
+<span class="sd">- `ScitexConfig` — YAML-backed config object exposing `.resolve(key, default=...)`.</span>
+<span class="sd">- `get_config()` — module-level cached accessor returning the default `ScitexConfig`.</span>
 
-<span class="sd">Usage:</span>
+<span class="sd">IO</span>
+<span class="sd">--</span>
+<span class="sd">- Reads: YAML files (default `src/scitex_config/default.yaml` or user-supplied path),</span>
+<span class="sd">  `os.environ` for `${VAR}` expansion.</span>
+<span class="sd">- Writes: none (read-only resolver).</span>
+
+<span class="sd">Dependencies</span>
+<span class="sd">------------</span>
+<span class="sd">- stdlib (`os`, `re`, `pathlib`, `typing`).</span>
+<span class="sd">- Sibling module `._PriorityConfig` (`PriorityConfig`, `load_dotenv`).</span>
+<span class="sd">- External: `PyYAML`.</span>
+
+<span class="sd">Usage</span>
+<span class="sd">-----</span>
 <span class="sd">    from scitex_config import ScitexConfig</span>
 
 <span class="sd">    # Load default configuration</span>
@@ -104,7 +118,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">._PriorityConfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">PriorityConfig</span><span class="p">,</span> <span class="n">load_dotenv</span>
 

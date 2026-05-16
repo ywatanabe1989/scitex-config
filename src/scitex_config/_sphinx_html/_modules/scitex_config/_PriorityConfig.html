@@ -84,13 +84,25 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Priority-based configuration resolver.</span>
 
-<span class="sd">Provides clean precedence hierarchy: direct → config_dict → env → default</span>
+<span class="sd">Functionalities</span>
+<span class="sd">---------------</span>
+<span class="sd">- `PriorityConfig.resolve()` — precedence cascade `direct → config_dict → env → default`.</span>
+<span class="sd">- `load_dotenv()` — load `.env` file(s) into `os.environ` (cwd / $HOME / walk-up modes).</span>
+<span class="sd">- `get_scitex_dir()` — resolve `$SCITEX_DIR` (direct → env → `~/.scitex`).</span>
 
-<span class="sd">Based on priority-config by ywatanabe (https://github.com/ywatanabe1989/priority-config)</span>
-<span class="sd">Incorporated into scitex for self-contained configuration management.</span>
+<span class="sd">IO</span>
+<span class="sd">--</span>
+<span class="sd">- Reads: process env, `.env` files (cwd, `$HOME`, walk-up parents), config dicts.</span>
+<span class="sd">- Writes: `os.environ` (only keys not already set — process env wins).</span>
 
-<span class="sd">Note: config_dict values (from YAML or passed dict) take priority over</span>
-<span class="sd">environment variables. This follows the Scholar module&#39;s CascadeConfig pattern.</span>
+<span class="sd">Dependencies</span>
+<span class="sd">------------</span>
+<span class="sd">- stdlib only (`os`, `pathlib`, `typing`).</span>
+
+<span class="sd">Based on priority-config by ywatanabe (https://github.com/ywatanabe1989/priority-config),</span>
+<span class="sd">incorporated into scitex for self-contained configuration management. Config-dict</span>
+<span class="sd">values (from YAML or passed dict) take priority over environment variables, following</span>
+<span class="sd">the Scholar module&#39;s CascadeConfig pattern.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -277,7 +289,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from scitex.config import PriorityConfig</span>
+<span class="sd">    &gt;&gt;&gt; from scitex_config import PriorityConfig</span>
 <span class="sd">    &gt;&gt;&gt; config = PriorityConfig(config_dict={&quot;port&quot;: 3000}, env_prefix=&quot;SCITEX_&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; port = config.resolve(&quot;port&quot;, None, default=8000, type=int)</span>
 <span class="sd">    3000  # from config_dict (highest after direct)</span>
