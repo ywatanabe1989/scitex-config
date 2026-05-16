@@ -7,13 +7,25 @@
 """
 Priority-based configuration resolver.
 
-Provides clean precedence hierarchy: direct → config_dict → env → default
+Functionalities
+---------------
+- `PriorityConfig.resolve()` — precedence cascade `direct → config_dict → env → default`.
+- `load_dotenv()` — load `.env` file(s) into `os.environ` (cwd / $HOME / walk-up modes).
+- `get_scitex_dir()` — resolve `$SCITEX_DIR` (direct → env → `~/.scitex`).
 
-Based on priority-config by ywatanabe (https://github.com/ywatanabe1989/priority-config)
-Incorporated into scitex for self-contained configuration management.
+IO
+--
+- Reads: process env, `.env` files (cwd, `$HOME`, walk-up parents), config dicts.
+- Writes: `os.environ` (only keys not already set — process env wins).
 
-Note: config_dict values (from YAML or passed dict) take priority over
-environment variables. This follows the Scholar module's CascadeConfig pattern.
+Dependencies
+------------
+- stdlib only (`os`, `pathlib`, `typing`).
+
+Based on priority-config by ywatanabe (https://github.com/ywatanabe1989/priority-config),
+incorporated into scitex for self-contained configuration management. Config-dict
+values (from YAML or passed dict) take priority over environment variables, following
+the Scholar module's CascadeConfig pattern.
 """
 
 import os
@@ -192,7 +204,7 @@ class PriorityConfig:
 
     Examples
     --------
-    >>> from scitex.config import PriorityConfig
+    >>> from scitex_config import PriorityConfig
     >>> config = PriorityConfig(config_dict={"port": 3000}, env_prefix="SCITEX_")
     >>> port = config.resolve("port", None, default=8000, type=int)
     3000  # from config_dict (highest after direct)

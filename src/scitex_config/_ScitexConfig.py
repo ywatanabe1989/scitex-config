@@ -6,12 +6,26 @@
 """
 YAML-based configuration for SciTeX with environment variable substitution.
 
-Similar to ScholarConfig, provides:
-- YAML configuration loading
-- Environment variable substitution (${VAR:-default} syntax)
-- Cascade resolution (direct → config → env → default)
+Functionalities
+---------------
+- `load_yaml()` — parse YAML with `${VAR:-default}` env substitution.
+- `ScitexConfig` — YAML-backed config object exposing `.resolve(key, default=...)`.
+- `get_config()` — module-level cached accessor returning the default `ScitexConfig`.
 
-Usage:
+IO
+--
+- Reads: YAML files (default `src/scitex_config/default.yaml` or user-supplied path),
+  `os.environ` for `${VAR}` expansion.
+- Writes: none (read-only resolver).
+
+Dependencies
+------------
+- stdlib (`os`, `re`, `pathlib`, `typing`).
+- Sibling module `._PriorityConfig` (`PriorityConfig`, `load_dotenv`).
+- External: `PyYAML`.
+
+Usage
+-----
     from scitex_config import ScitexConfig
 
     # Load default configuration
@@ -27,7 +41,7 @@ Usage:
 import os
 import re
 from pathlib import Path
-from typing import Any, Dict, Optional, Type, Union
+from typing import Any, Optional, Type, Union
 
 from ._PriorityConfig import PriorityConfig, load_dotenv
 

@@ -6,10 +6,27 @@
 """
 Centralized path management for SciTeX.
 
-Provides a single source of truth for all directory paths used across
-the SciTeX ecosystem. All paths respect the SCITEX_DIR environment variable.
+Functionalities
+---------------
+- `ScitexPaths` — central path manager rooted at `$SCITEX_DIR`
+  (browser, cache, capture, logs, sessions, ...).
+- Property accessors return canonical defaults; `resolve(name, direct_val=...)`
+  supports the `direct → env → default` cascade per directory.
+- `get_paths()` — module-level cached accessor.
 
-Usage:
+IO
+--
+- Reads: `$SCITEX_DIR` env var, `.env` files (via `load_dotenv`).
+- Writes: creates child directories under `$SCITEX_DIR` on first access
+  (`mkdir(parents=True, exist_ok=True)`).
+
+Dependencies
+------------
+- stdlib (`os`, `pathlib`, `typing`).
+- Sibling module `._PriorityConfig` (`get_scitex_dir`, `load_dotenv`).
+
+Usage
+-----
     from scitex_config import ScitexPaths
 
     paths = ScitexPaths()
@@ -26,11 +43,10 @@ Usage:
     paths = ScitexPaths(base_dir="/custom/path")
 """
 
-import os
 from pathlib import Path
 from typing import Optional, Union
 
-from ._PriorityConfig import get_scitex_dir, load_dotenv
+from ._PriorityConfig import get_scitex_dir
 
 
 class ScitexPaths:
