@@ -18,69 +18,142 @@ environment variables. This follows the Scholar module's CascadeConfig pattern.
 
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type, Union
 
 
-def load_dotenv(dotenv_path: Optional[str] = None) -> bool:
-    """Load environment variables from .env file.
+def _parse_dotenv_file(path: Path) -> bool:
+    """Parse a single .env file and merge into os.environ.
 
-    Searches for .env file in the following order:
-    1. Explicit dotenv_path if provided
-    2. Current working directory
-    3. User home directory
+    Existing env vars are preserved (not overridden) — process env wins
+    over .env file contents.
+
+    Returns
+    -------
+    bool
+        True if the file was successfully read and parsed, False on error.
+    """
+    try:
+        with open(path, "r") as f:
+            for line in f:
+                line = line.strip()
+                # Skip empty lines and comments
+                if not line or line.startswith("#"):
+                    continue
+                # Handle export prefix
+                if line.startswith("export "):
+                    line = line[7:]
+                # Parse key=value
+                if "=" in line:
+                    key, _, value = line.partition("=")
+                    key = key.strip()
+                    value = value.strip()
+                    # Remove quotes if present
+                    if (value.startswith('"') and value.endswith('"')) or (
+                        value.startswith("'") and value.endswith("'")
+                    ):
+                        value = value[1:-1]
+                    # Only set if not already in environment (env takes precedence)
+                    if key not in os.environ:
+                        os.environ[key] = value
+        return True
+    except Exception:
+        return False
+
+
+def load_dotenv(
+    dotenv_path: Optional[str] = None,
+    *,
+    walk_up: bool = False,
+    stop_at: Optional[Union[str, Path]] = None,
+) -> bool:
+    """Load environment variables from .env file(s).
+
+    Default behavior (``walk_up=False``, backward compatible):
+        Searches for .env file in the following order, loading the first match:
+        1. Explicit ``dotenv_path`` if provided
+        2. Current working directory (``cwd/.env``)
+        3. User home directory (``$HOME/.env``)
+
+    Parent-walking behavior (``walk_up=True``, opt-in):
+        Walks parent directories starting from ``cwd``, looking for ``.env``
+        at each level. Stops when reaching ``stop_at`` (or ``$HOME`` if not
+        given) or the filesystem root. **All** ``.env`` files found are loaded,
+        with the most-distant parent loaded first so that closer-to-cwd values
+        take precedence (closer .env wins). An existing process env var is
+        never overridden by any .env (process env > closest .env > ... > root .env).
+
+        Note: ``walk_up=True`` is ignored if ``dotenv_path`` is explicitly given.
 
     Parameters
     ----------
     dotenv_path : str, optional
         Path to .env file. If None, searches default locations.
+    walk_up : bool, optional
+        If True (and ``dotenv_path`` not given), walk parent dirs from cwd.
+        Default False for backward compatibility — new callers should pass True.
+    stop_at : str or Path, optional
+        Directory at which to stop the upward walk (inclusive — its ``.env``
+        is considered). If None, stops at ``$HOME`` (or filesystem root if
+        ``$HOME`` is not a parent of cwd). Only used when ``walk_up=True``.
 
     Returns
     -------
     bool
-        True if .env file was found and loaded, False otherwise.
+        True if at least one .env file was found and loaded, False otherwise.
     """
-    paths_to_try = []
-
     if dotenv_path:
-        paths_to_try.append(Path(dotenv_path))
-    else:
-        # Default search paths
-        paths_to_try.extend(
-            [
-                Path.cwd() / ".env",
-                Path.home() / ".env",
-            ]
-        )
-
-    for path in paths_to_try:
+        path = Path(dotenv_path)
         if path.exists() and path.is_file():
-            try:
-                with open(path, "r") as f:
-                    for line in f:
-                        line = line.strip()
-                        # Skip empty lines and comments
-                        if not line or line.startswith("#"):
-                            continue
-                        # Handle export prefix
-                        if line.startswith("export "):
-                            line = line[7:]
-                        # Parse key=value
-                        if "=" in line:
-                            key, _, value = line.partition("=")
-                            key = key.strip()
-                            value = value.strip()
-                            # Remove quotes if present
-                            if (value.startswith('"') and value.endswith('"')) or (
-                                value.startswith("'") and value.endswith("'")
-                            ):
-                                value = value[1:-1]
-                            # Only set if not already in environment (env takes precedence)
-                            if key not in os.environ:
-                                os.environ[key] = value
-                return True
-            except Exception:
-                continue
-    return False
+            return _parse_dotenv_file(path)
+        return False
+
+    if not walk_up:
+        # Legacy behavior: try cwd then $HOME, first hit wins.
+        for path in (Path.cwd() / ".env", Path.home() / ".env"):
+            if path.exists() and path.is_file():
+                return _parse_dotenv_file(path)
+        return False
+
+    # walk_up=True: collect .env files from cwd up through parents.
+    cwd = Path.cwd().resolve()
+    home = Path.home().resolve()
+    stop_dir = Path(stop_at).expanduser().resolve() if stop_at is not None else home
+
+    collected: List[Path] = []
+    current = cwd
+    visited: set = set()
+    while True:
+        resolved = current.resolve()
+        if resolved in visited:
+            break
+        visited.add(resolved)
+
+        candidate = current / ".env"
+        if candidate.exists() and candidate.is_file():
+            collected.append(candidate)
+
+        # Stop condition: reached the configured stop directory.
+        if resolved == stop_dir:
+            break
+
+        parent = current.parent
+        if parent == current:
+            # Filesystem root reached.
+            break
+        current = parent
+
+    if not collected:
+        return False
+
+    # `collected` is in cwd→root order (closest first). Load in that order:
+    # `_parse_dotenv_file` skips keys already in os.environ, so the closest
+    # .env wins for any shared key. Process env (set before this call) wins
+    # over all .env files.
+    loaded_any = False
+    for path in collected:
+        if _parse_dotenv_file(path):
+            loaded_any = True
+    return loaded_any
 
 
 def get_scitex_dir(direct_val: Optional[str] = None) -> Path:
