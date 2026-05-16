@@ -9,7 +9,7 @@ description = "Configuration helpers (YAML + dotenv layered priority) — standa
 readme = "README.md"
 license = "AGPL-3.0-only"
 requires-python = ">=3.9"
-authors = [{name = "Yusuke Watanabe", email = "ywatanabe@scitex.ai"}]
+authors = [{name = "Yusuke Watanabe", email = "noreply@scitex.ai"}]
 keywords = ["scitex", "config", "yaml", "dotenv", "settings"]
 classifiers = [
     "Development Status :: 3 - Alpha",
