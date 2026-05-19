@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scitex-config"
-version = "0.3.2"
+version = "0.3.3"
 description = "Configuration helpers (YAML + dotenv layered priority) — standalone module from the SciTeX ecosystem"
 readme = "README.md"
 license = "AGPL-3.0-only"
