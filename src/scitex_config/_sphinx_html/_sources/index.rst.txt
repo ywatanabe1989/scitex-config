@@ -1,20 +1,12 @@
 scitex-config
 =============
 
-Small linear-algebra helpers (distance, geometric median, cosine, nannorm)
-extracted from the SciTeX ecosystem as a standalone package.
+Configuration helpers (YAML + dotenv) with a direct → config → env →
+default priority cascade, plus a centralized path manager — extracted
+from the SciTeX ecosystem as a standalone package.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    api
-
-API Reference
--------------
-
-.. autosummary::
-   :toctree: api
-   :recursive:
-
-   scitex_config

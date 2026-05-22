@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>scitex_config._PriorityConfig &mdash; scitex-config 0.1.0 documentation</title>
+  <title>scitex_config._PriorityConfig &mdash; scitex-config 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -45,9 +45,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/scitex_config.html">scitex_config</a></li>
 </ul>
 
         </div>
@@ -150,7 +147,7 @@
 
 
 <div class="viewcode-block" id="load_dotenv">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.load_dotenv">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.load_dotenv">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_dotenv</span><span class="p">(</span>
     <span class="n">dotenv_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -249,7 +246,7 @@
 
 
 <div class="viewcode-block" id="get_scitex_dir">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.get_scitex_dir">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.get_scitex_dir">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_scitex_dir</span><span class="p">(</span><span class="n">direct_val</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get SCITEX_DIR with priority: direct → env → default.</span>
 
@@ -280,7 +277,7 @@
 
 
 <div class="viewcode-block" id="PriorityConfig">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.PriorityConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PriorityConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Universal config resolver with precedence: direct → config_dict → env → default</span>
 
@@ -339,14 +336,14 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;PriorityConfig(prefix=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env_prefix</span><span class="si">}</span><span class="s2">&#39;, configs=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
 <div class="viewcode-block" id="PriorityConfig.get">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.get">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.PriorityConfig.get">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get value from config dict only.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PriorityConfig.resolve">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.resolve">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.PriorityConfig.resolve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -422,7 +419,7 @@
 
 
 <div class="viewcode-block" id="PriorityConfig.print_resolutions">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.print_resolutions">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.PriorityConfig.print_resolutions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">print_resolutions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Print how each config was resolved.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span><span class="p">:</span>
@@ -436,7 +433,7 @@
 
 
 <div class="viewcode-block" id="PriorityConfig.clear_log">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.PriorityConfig.clear_log">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.PriorityConfig.clear_log">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clear_log</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear resolution log.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">resolution_log</span> <span class="o">=</span> <span class="p">[]</span></div>

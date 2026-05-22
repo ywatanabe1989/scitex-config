@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>scitex_config._paths &mdash; scitex-config 0.1.0 documentation</title>
+  <title>scitex_config._paths &mdash; scitex-config 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -45,9 +45,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/scitex_config.html">scitex_config</a></li>
 </ul>
 
         </div>
@@ -127,7 +124,7 @@
 
 
 <div class="viewcode-block" id="ScitexPaths">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.ScitexPaths">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.ScitexPaths">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ScitexPaths</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Centralized path manager for SciTeX directories.</span>
 
@@ -269,7 +266,7 @@
     <span class="c1"># ========== Resolve method (recommended for modules) ==========</span>
 
 <div class="viewcode-block" id="ScitexPaths.resolve">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.ScitexPaths.resolve">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.ScitexPaths.resolve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">path_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -320,7 +317,7 @@
     <span class="c1"># ========== Utility methods ==========</span>
 
 <div class="viewcode-block" id="ScitexPaths.ensure_dir">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.ScitexPaths.ensure_dir">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.ScitexPaths.ensure_dir">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ensure_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure directory exists, creating if necessary.</span>
 
@@ -339,7 +336,7 @@
 
 
 <div class="viewcode-block" id="ScitexPaths.ensure_all">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.ScitexPaths.ensure_all">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.ScitexPaths.ensure_all">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ensure_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create all standard directories.&quot;&quot;&quot;</span>
         <span class="n">dirs</span> <span class="o">=</span> <span class="p">[</span>
@@ -366,7 +363,7 @@
 
 
 <div class="viewcode-block" id="ScitexPaths.list_all">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.ScitexPaths.list_all">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.ScitexPaths.list_all">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">list_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List all configured paths.</span>
 
@@ -407,7 +404,7 @@
 
 
 <div class="viewcode-block" id="get_paths">
-<a class="viewcode-back" href="../../api/scitex_config.html#scitex_config.get_paths">[docs]</a>
+<a class="viewcode-back" href="../../api.html#scitex_config.get_paths">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_paths</span><span class="p">(</span><span class="n">base_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScitexPaths</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get ScitexPaths instance.</span>
 

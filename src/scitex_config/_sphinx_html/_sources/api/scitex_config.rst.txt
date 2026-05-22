@@ -1,6 +1,0 @@
-﻿scitex\_config
-==============
-
-.. automodule:: scitex_config
-
-   
