@@ -42,11 +42,19 @@ Usage:
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version("scitex-config")
+except PackageNotFoundError:
+    __version__ = "0.0.0+local"
+
 from ._paths import ScitexPaths, get_paths
 from ._PriorityConfig import PriorityConfig, get_scitex_dir, load_dotenv
 from ._ScitexConfig import ScitexConfig, get_config, load_yaml
 
 __all__ = [
+    "__version__",
     # YAML-based config (Scholar pattern)
     "ScitexConfig",
     "get_config",
