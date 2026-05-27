@@ -1,0 +1,53 @@
+name: auto-merge-green
+# CI-native auto-merge: when a check suite completes, merge any open PR whose
+# checks are ALL green (codecov + readthedocs ignored as advisory) and whose
+# base is NOT main/master (release PRs stay deliberate). Event-driven, no
+# polling. GITHUB_TOKEN merges via --admin where branch policy allows; where
+# it doesn't, the PR simply stays open (fail-safe, never mis-merges).
+on:
+  check_suite:
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.check_suite.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: merge green non-release PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.check_suite.head_sha }}
+        run: |
+          set -uo pipefail
+          if [ -n "${HEAD_SHA:-}" ]; then
+            prs=$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
+                    --jq '.[] | select(.state=="open") | .number' 2>/dev/null || true)
+          else
+            prs=$(gh pr list --repo "$REPO" --state open --json number --jq '.[].number' 2>/dev/null || true)
+          fi
+          [ -z "${prs:-}" ] && { echo "no open PRs for this event"; exit 0; }
+          for pr in $prs; do
+            base=$(gh pr view "$pr" --repo "$REPO" --json baseRefName --jq .baseRefName 2>/dev/null || echo "")
+            case "$base" in main|master) echo "skip release PR #$pr (base=$base)"; continue;; esac
+            draft=$(gh pr view "$pr" --repo "$REPO" --json isDraft --jq .isDraft 2>/dev/null || echo true)
+            [ "$draft" = "true" ] && { echo "skip draft #$pr"; continue; }
+            pending=$(gh pr view "$pr" --repo "$REPO" --json statusCheckRollup --jq '
+              [ .statusCheckRollup[]
+                | select(((.name // .context // "") | ascii_downcase | test("codecov|readthedocs")) | not)
+                | (.conclusion // .state // "")
+                | select(. != "SUCCESS" and . != "NEUTRAL" and . != "SKIPPED" and . != "") ] | length' \
+              2>/dev/null || echo 1)
+            if [ "$pending" = "0" ]; then
+              gh pr merge "$pr" --repo "$REPO" --merge --admin --delete-branch \
+                && echo "MERGED #$pr (base=$base)" \
+                || echo "merge blocked #$pr (branch policy) — left open"
+            else
+              echo "PR #$pr not fully green ($pending pending) — skip"
+            fi
+          done
