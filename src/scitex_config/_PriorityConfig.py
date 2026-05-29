@@ -32,9 +32,15 @@ import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type, Union
 
+from ._env_loader import parse_src_file
+
 
 def _parse_dotenv_file(path: Path) -> bool:
     """Parse a single .env file and merge into os.environ.
+
+    Line/value parsing (``export`` prefix, quote stripping, ``$VAR`` expansion)
+    is delegated to :func:`scitex_config._env_loader.parse_src_file` so the
+    ``.env`` and ``.src`` surfaces share one canonical parser.
 
     Existing env vars are preserved (not overridden) — process env wins
     over .env file contents.
@@ -44,29 +50,14 @@ def _parse_dotenv_file(path: Path) -> bool:
     bool
         True if the file was successfully read and parsed, False on error.
     """
+    if not (path.exists() and path.is_file()):
+        return False
     try:
-        with open(path, "r") as f:
-            for line in f:
-                line = line.strip()
-                # Skip empty lines and comments
-                if not line or line.startswith("#"):
-                    continue
-                # Handle export prefix
-                if line.startswith("export "):
-                    line = line[7:]
-                # Parse key=value
-                if "=" in line:
-                    key, _, value = line.partition("=")
-                    key = key.strip()
-                    value = value.strip()
-                    # Remove quotes if present
-                    if (value.startswith('"') and value.endswith('"')) or (
-                        value.startswith("'") and value.endswith("'")
-                    ):
-                        value = value[1:-1]
-                    # Only set if not already in environment (env takes precedence)
-                    if key not in os.environ:
-                        os.environ[key] = value
+        parsed = parse_src_file(path)
+        for key, value in parsed.items():
+            # Only set if not already in environment (env takes precedence)
+            if key not in os.environ:
+                os.environ[key] = value
         return True
     except Exception:
         return False

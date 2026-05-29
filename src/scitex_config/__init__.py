@@ -13,6 +13,8 @@ primitives usable by any Python project:
 - ``ScitexConfig``, ``get_config``, ``load_yaml`` — YAML-based config
 - ``ScitexPaths``, ``get_paths`` — centralized path manager
 - ``load_dotenv``, ``get_scitex_dir`` — utilities
+- ``parse_src_file``, ``load_env_from_path``, ``load_scitex_env`` — bash-style
+  ``.src``/``.env`` parsing (canonical line/value parser; ``load_dotenv`` delegates)
 
 **SciTeX-ecosystem internals** (``scitex_config._ecosystem.*``) — helpers
 that embed SciTeX conventions (`pkg-short` naming, project-scope walk to
@@ -49,6 +51,11 @@ try:
 except PackageNotFoundError:
     __version__ = "0.0.0+local"
 
+from ._env_loader import (
+    load_env_from_path,
+    load_scitex_env,
+    parse_src_file,
+)
 from ._paths import ScitexPaths, get_paths
 from ._PriorityConfig import PriorityConfig, get_scitex_dir, load_dotenv
 from ._ScitexConfig import ScitexConfig, get_config, load_yaml
@@ -66,6 +73,10 @@ __all__ = [
     "PriorityConfig",
     "get_scitex_dir",
     "load_dotenv",
+    # .src / .env parsing
+    "parse_src_file",
+    "load_env_from_path",
+    "load_scitex_env",
 ]
 
 
