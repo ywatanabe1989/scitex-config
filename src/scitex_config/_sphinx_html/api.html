@@ -95,6 +95,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#scitex_config.get_scitex_dir"><code class="docutils literal notranslate"><span class="pre">get_scitex_dir()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scitex_config.load_dotenv"><code class="docutils literal notranslate"><span class="pre">load_dotenv()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.parse_src_file"><code class="docutils literal notranslate"><span class="pre">parse_src_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.load_env_from_path"><code class="docutils literal notranslate"><span class="pre">load_env_from_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scitex_config.load_scitex_env"><code class="docutils literal notranslate"><span class="pre">load_scitex_env()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -134,6 +137,8 @@ primitives usable by any Python project:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">ScitexConfig</span></code>, <code class="docutils literal notranslate"><span class="pre">get_config</span></code>, <code class="docutils literal notranslate"><span class="pre">load_yaml</span></code> — YAML-based config</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ScitexPaths</span></code>, <code class="docutils literal notranslate"><span class="pre">get_paths</span></code> — centralized path manager</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">load_dotenv</span></code>, <code class="docutils literal notranslate"><span class="pre">get_scitex_dir</span></code> — utilities</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parse_src_file</span></code>, <code class="docutils literal notranslate"><span class="pre">load_env_from_path</span></code>, <code class="docutils literal notranslate"><span class="pre">load_scitex_env</span></code> — bash-style
+<code class="docutils literal notranslate"><span class="pre">.src</span></code>/<code class="docutils literal notranslate"><span class="pre">.env</span></code> parsing (canonical line/value parser; <code class="docutils literal notranslate"><span class="pre">load_dotenv</span></code> delegates)</p></li>
 </ul>
 <p><strong>SciTeX-ecosystem internals</strong> (<code class="docutils literal notranslate"><span class="pre">scitex_config._ecosystem.*</span></code>) — helpers
 that embed SciTeX conventions (<cite>pkg-short</cite> naming, project-scope walk to
@@ -670,6 +675,55 @@ is considered). If None, stops at <code class="docutils literal notranslate"><sp
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.parse_src_file">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">parse_src_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_env_loader.html#parse_src_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.parse_src_file" title="Link to this definition"></a></dt>
+<dd><p>Parse a bash-compatible <code class="docutils literal notranslate"><span class="pre">.src</span></code>/<code class="docutils literal notranslate"><span class="pre">.env</span></code> file and extract env variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>Path</em>) – Path to the file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of variable names to values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.load_env_from_path">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">load_env_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_env_loader.html#load_env_from_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.load_env_from_path" title="Link to this definition"></a></dt>
+<dd><p>Load environment variables from a file or directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to a <code class="docutils literal notranslate"><span class="pre">.src</span></code> file or directory containing <code class="docutils literal notranslate"><span class="pre">*.src</span></code> files.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All loaded environment variables.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scitex_config.load_scitex_env">
+<span class="sig-prename descclassname"><span class="pre">scitex_config.</span></span><span class="sig-name descname"><span class="pre">load_scitex_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scitex_config/_env_loader.html#load_scitex_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scitex_config.load_scitex_env" title="Link to this definition"></a></dt>
+<dd><p>Load environment variables from <code class="docutils literal notranslate"><span class="pre">$SCITEX_ENV_SRC</span></code> if set.</p>
+<p>This function should be called early in the MCP server startup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of environment variables loaded.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
