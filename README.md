@@ -100,7 +100,7 @@ db_url = pc.resolve(
     direct=cli_arg,
     key="database.url",
     env_var="DATABASE_URL",
-    default="sqlite:///dev.db",
+    default="postgresql://scitex-primary:55432/scitex",
 )
 ```
 
@@ -113,7 +113,7 @@ flowchart LR
     D[direct=cli_arg] -->|wins if not None| R[PriorityConfig.resolve]
     Y["yaml: config/app.yaml<br/>database.url"] -->|2nd| R
     E["env: DATABASE_URL"] -->|3rd| R
-    F["default='sqlite:///dev.db'"] -->|fallback| R
+    F["default='postgresql://scitex-primary:55432/scitex'"] -->|fallback| R
     R --> V["resolved value"]
 ```
 

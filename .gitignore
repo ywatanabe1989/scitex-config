@@ -18,6 +18,11 @@ htmlcov/
 venv/
 docs/sphinx/_build/
 docs/sphinx/api/
+# The served bundle src/<pkg>/_sphinx_html/ stays tracked; its .doctrees/
+# subdirectory is sphinx-build's incremental-build scratch and is not part
+# of it. The CI docs refresh copies the whole output dir, which is how it
+# got committed.
+src/*/_sphinx_html/.doctrees/
 *.swp
 .DS_Store
 

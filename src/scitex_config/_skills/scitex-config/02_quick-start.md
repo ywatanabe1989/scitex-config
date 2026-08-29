@@ -19,7 +19,7 @@ db_url = pc.resolve(
     direct=cli_arg,                  # highest precedence
     key="database.url",              # yaml lookup (dot-notation)
     env_var="DATABASE_URL",          # env override
-    default="sqlite:///dev.db",      # last resort
+    default="postgresql://scitex-primary:55432/scitex",  # last resort
 )
 ```
 
