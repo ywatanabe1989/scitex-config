@@ -16,10 +16,10 @@ pc = PriorityConfig(yaml_path="config/app.yaml")
 
 # Resolves in order: cli_arg → yaml["database"]["url"] → $DATABASE_URL → fallback
 db_url = pc.resolve(
-    direct=cli_arg,                  # highest precedence
-    key="database.url",              # yaml lookup (dot-notation)
-    env_var="DATABASE_URL",          # env override
-    default="sqlite:///dev.db",      # last resort
+    direct=cli_arg,                        # highest precedence
+    key="database.url",                    # yaml lookup (dot-notation)
+    env_var="DATABASE_URL",                # env override
+    default="postgresql://localhost/dev",  # last resort
 )
 ```
 
