@@ -35,7 +35,7 @@ from scitex_config import PriorityConfig, get_config, get_paths
 # direct → yaml → env → default cascade
 pc = PriorityConfig(yaml_path="config/app.yaml")
 db = pc.resolve(direct=cli_arg, key="database.url",
-                env_var="DATABASE_URL", default="sqlite:///dev.db")
+                env_var="DATABASE_URL", default="postgresql://localhost/dev")
 
 # Same cascade for nested keys via the config object.
 config = get_config()
